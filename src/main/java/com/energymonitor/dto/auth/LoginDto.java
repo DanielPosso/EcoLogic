@@ -4,7 +4,9 @@ import lombok.Data;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
-/*@Data
+/*
+//First base version
+@Data
 public class LoginDto {
     private String email;
     private String password;

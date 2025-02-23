@@ -2,7 +2,7 @@ package com.energymonitor.controller;
 
 import com.energymonitor.dto.ApiResponse;
 import com.energymonitor.dto.auth.LoginDto;
-import com.energymonitor.dto.auth.SignUpDto;
+import com.energymonitor.dto.auth.UserRegistrationDto;
 import com.energymonitor.dto.auth.TokenDto;
 import com.energymonitor.service.AuthService;
 import jakarta.validation.Valid;
@@ -27,7 +27,7 @@ public class AuthController {
      @PostMapping(value = "/signup", consumes = MediaType.APPLICATION_JSON_VALUE)
      public ResponseEntity<?> registerUser(
              @RequestBody
-             @Valid SignUpDto signUpDto) {
+             @Valid UserRegistrationDto signUpDto) {
          try {
              authService.registerUser(signUpDto);
              return ResponseEntity.ok()

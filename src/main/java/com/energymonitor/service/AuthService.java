@@ -1,8 +1,9 @@
 package com.energymonitor.service;
 
 import com.energymonitor.dto.auth.LoginDto;
-import com.energymonitor.dto.auth.SignUpDto;
+import com.energymonitor.dto.auth.UserRegistrationDto;
 import com.energymonitor.dto.auth.TokenDto;
+import com.energymonitor.dto.auth.UserRegistrationDto;
 import com.energymonitor.entities.User;
 import com.energymonitor.repository.UserRepository;
 import com.energymonitor.security.JwtTokenProvider;
@@ -35,27 +36,26 @@ public class AuthService {
 
      /*
         * Handles user registration
-        * @param signUpDto Registration details
+        * @param UserRegistrationDto Registration details
         * @return Newly created user
      */
-    @Transactional
-    public User registerUser(@Valid SignUpDto signUpto) {
-        // Checks if user already exists
-        if (userRepository.existsByEmail(signUpDto.getEmail())) {
-            throw new RuntimeException("Email already registered");
+     @Transactional
+     public User registerUser(@Valid UserRegistrationDto userRegistrationDto) {
+         // Checks if user already exists
+         if (userRepository.existsByEmail(userRegistrationDto.getEmail())) {
+             throw new RuntimeException("Email already registered");
+         }
 
-        }
+         // Create new user
+         User user = new User();
+         user.setEmail(userRegistrationDto.getEmail());
+         user.setPassword(passwordEncoder.encode(userRegistrationDto.getPassword()));
+         user.setFirstName(userRegistrationDto.getFirstName());
+         user.setLastName(userRegistrationDto.getLastName());
+         user.setEnabled(true);
 
-        //Create new user
-        User user = new User();
-        user.setEmail(signUpDto.getEmail());
-        user.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
-        user.setFirstName(signUpDto.getFirstName());
-        user.setLastName(signUpDto.getLastName());
-        user.setEnabled(true);
-
-        return userRepository.save(user);
-    }
+         return userRepository.save(user);
+     }
 
      /*
         * Handles user login
